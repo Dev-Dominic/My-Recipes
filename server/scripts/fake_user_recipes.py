@@ -22,16 +22,15 @@ _file = open('Recipes.json', 'r')
 result = json.loads(_file.read())
 
 for _ in range(600000):
-    n=0
+    n=random.randint(0,8)
 
     name= result[n]['name']
     instructions= result[n]['steps']
     date=datetime.now()
     user_id= fake.random_int(min=1, max=200000)
     add_recipes= "INSERT INTO RECIPE(name,instructions,date_created,user_id) VALUES({name},{instructions},{date},{user_id})"
-        
-    n+=1
 
+     
 script.write(add_users)
 script.write(add_recipes)
 
