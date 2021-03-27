@@ -55,6 +55,6 @@ Create Table Measurements(
 Create Table Planned_Meal(
 	id int auto_increment not null,
 	week_start date,
-	week_start date,
+	week_end date,
 	primary key(id)
 );
