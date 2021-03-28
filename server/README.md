@@ -28,7 +28,7 @@ All these endponts relate to recipe related actions within the system.
 - add recipe: POST /api/recipe
 - search for recipe: GET /api/recipe
 
-## Meals
+### Meals
 
 All these endpoints relate to meal/planned meal related actions within the
 system.
