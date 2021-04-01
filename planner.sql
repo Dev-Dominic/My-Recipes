@@ -64,7 +64,8 @@ CREATE TABLE measure_ing(
 CREATE TABLE weeks(
 	week_id int not null,
 	start_date date,
-	day varchar(15)
+	day varchar(15),
+	primary key (week_id)
 );
 
 CREATE TABLE days(
@@ -72,7 +73,9 @@ CREATE TABLE days(
 	day varchar(30),
 	breakfast varchar(30),
 	lunch varchar(30),
-	dinner varchar(30)
+	dinner varchar(30),
+	primary key (day),
+	foreign key (week_id) references weeks(week_id) on update cascade on delete cascade
 );
 
 CREATE TABLE user_ing(
