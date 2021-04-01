@@ -12,7 +12,7 @@ Create Table Ingredients(
 	name varchar(30),
 	avaiable_quantity varchar(50),
 	user_id varchar(15),
-	measurement_name(30),
+	measurement_name varchar(30),
 	primary key(id),
 	foreign key(user_id) references User(user_id) on delete cascade on update cascade
 );
