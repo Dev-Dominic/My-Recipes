@@ -1,10 +1,10 @@
 from ..utils.db import insert_update
 
-def create_recipe_service(name, instructions, ingredients_id_list):
+def create_recipe_service(name, instructions, ingredients_id_list, user_id):
     resp = None
     recipe_inserted = insert_update(
-        f"""INSERT INTO Recipes(name, instructions, date)
-        VALUES({name}, {instructions}, NOW())"""
+        f"""INSERT INTO Recipes(name, instructions, user_id, date)
+        VALUES({name}, {instructions}, {user_id}, NOW())"""
     )
 
     # Checks that recipe is successfully inserted before creating
@@ -40,4 +40,4 @@ def create_recipe_service(name, instructions, ingredients_id_list):
             ingredients_id_list: ingredients_id_list
         }
 
-    return resp
+    return resp # None
