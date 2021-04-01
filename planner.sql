@@ -24,6 +24,9 @@ CREATE TABLE Recipe(
 CREATE TABLE Ingredients(
 	ingredients_id int auto_increment not null,
 	name varchar(30),
+	available varchar(30),
+	quantity int (30),
+	meas_id int (30),
 	primary key(ingredients_id)
 );
 
@@ -31,6 +34,7 @@ CREATE TABLE Meal(
 	meal_id int auto_increment not null,
 	image_name varchar(255),
 	calories int(10),
+	type varchar(40),
 	servings int(10),
 	primary key(meal_id)
 );
@@ -45,9 +49,9 @@ CREATE TABLE Planned_Meal(
 CREATE TABLE Measurements(
 	measure_id int auto_increment not null,
 	unit varchar(20),
+	amount int(30),
 	primary key(measure_id)
 );
-
 
 CREATE TABLE measure_ing(
 	measure_id int not null,
@@ -55,6 +59,20 @@ CREATE TABLE measure_ing(
 	primary key(measure_id, ingredients_id),
 	foreign key (measure_id) references Measurements(measure_id) on update cascade on delete cascade,
 	foreign key (ingredients_id) references Ingredients(ingredients_id) on update cascade on delete cascade
+);
+
+CREATE TABLE weeks(
+	week_id int not null,
+	start_date date,
+	day varchar(15)
+);
+
+CREATE TABLE days(
+	week_id int not null,
+	day varchar(30),
+	breakfast varchar(30),
+	lunch varchar(30),
+	dinner varchar(30)
 );
 
 CREATE TABLE user_ing(
@@ -104,6 +122,7 @@ CREATE TABLE meal_recipe(
 CREATE TABLE meal_plan(
 	planned_meal_id int not null,
 	meal_id int not null,
+	week_id int not null,
 	meal_type varchar(30),
 	schedule_date date,
 	primary key(meal_id, planned_meal_id),
