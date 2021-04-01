@@ -14,11 +14,12 @@ CREATE TABLE User(
 
 
 CREATE TABLE Recipe(
-	recipe_id int auto_increment not null,
+	rec_id int auto_increment not null,
 	name varchar(30),
 	instructions varchar(255),
 	date_created date,
-	primary key(recipe_id)
+	creator varchar(30),
+	primary key(rec_id)
 );
 
 CREATE TABLE Ingredients(
@@ -32,7 +33,7 @@ CREATE TABLE Ingredients(
 
 CREATE TABLE Meal(
 	meal_id int auto_increment not null,
-	image_name varchar(255),
+	image varbinary(21806),
 	calories int(10),
 	type varchar(40),
 	servings int(10),
@@ -88,10 +89,10 @@ CREATE TABLE user_ing(
 );
 
 CREATE TABLE r_ingredients(
-	recipe_id int not null,
+	rec_id int not null,
 	ingredients_id int not null,
-	primary key(recipe_id, ingredients_id),
-	foreign key (recipe_id) references Recipe(recipe_id) on update cascade on delete cascade,
+	primary key(rec_id, ingredients_id),
+	foreign key (rec_id) references Recipe(rec_id) on update cascade on delete cascade,
 	foreign key (ingredients_id) references Ingredients(ingredients_id) on update cascade on delete cascade
 );
 
