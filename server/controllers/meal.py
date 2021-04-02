@@ -13,12 +13,14 @@ def create_meal():
         image_name = json_request['image']
         calories = json_request['calories']
         servings= json_request['servings']
+        recipe_id_list= json.request['recipe_id_list']
 
-        if (len(calories) = 0 or len(servings) = 0 ):
+        if not (len(image_name) >= 3 and len(calories) = 0 
+        and len(servings) = 0 len(recipe_id_list) > 1):
             return json.dumps({ "error_message": "Please to enter all required data"
                               }), 500
         
-        response = create_meal_service(image_name, calories, servings)
+        response = create_meal_service(image_name, calories, servings,recipe_id_list, user_id)
 
         if response is None:
             return '', 500
@@ -33,14 +35,14 @@ def create_meal():
 def generate_meal_plan():
     try:
         json_request = request.json
-        meal_type = json_request['meal_type']
-        schedule_date = json_request['schedule_date']
+        start_date = json_request['start_date']
+        end_date = json_request['end_date']
 
-        if (len(meal_type) < 5 or len(schedule_date) < 8  ):
+        if (len(start_date) < 8 or len(end_date) < 8):
             return json.dumps({ "error_message": "Please to enter all required data"
                               }), 500
 
-        response= generate_meal_plan(meal_type, schedule_date)
+        response= generate_meal_plan(start_date, end_date)
 
         if response is None:
             return '', 500
