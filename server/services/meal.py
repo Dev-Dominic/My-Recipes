@@ -114,9 +114,11 @@ def previousMeals_service(meal_type, schedule_date):
     return previous_meals
 
 
-def mealPlan_byCalories():
+def mealPlan_byCalories(calorie_count):
     meal_calories=select(
-        f"""SELECT * from table"""
+        f"""SELECT * FROM Meals_Plan JOIN Meals 
+        ON Meals_Plan.meal_id=Meals.meal_id
+        WHERE Meals.calories='{calorie_count}' """
     )
 
     return meal_calories
