@@ -60,10 +60,10 @@ def generate_meal_plan():
 def previous_meal():
         try:
             json_request = request.json
-            #user_id = json_request['user_id']
-            #name = json_request['name']
+            meal_type= json_request['meal_type']
+            schedule_date= json_request['schedule_date']
 
-            response= previousMeals_service()
+            response= previousMeals_service(meal_type, schedule_date)
             return json.dumps(response), 200
         except Exception as e:
             print(e)
@@ -72,7 +72,7 @@ def previous_meal():
 
 
 
-@meal.route('/:calorie_count',methods=['GET'])
+@meal.route('/<calorie_count>',methods=['GET'])
 def meal_byCalorieCount():
         try:
             json_request = request.json
