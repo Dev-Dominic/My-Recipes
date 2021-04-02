@@ -37,8 +37,8 @@ def generate_meal_plan():
         json_request = request.json
         start_date = json_request['start_date']
         end_date = json_request['end_date']
-
-        if (len(start_date) < 8 or len(end_date) < 8):
+        
+        if not (len(start_date) >= 8 and len(end_date) >= 8 :
             return json.dumps({ "error_message": "Please to enter all required data"
                               }), 500
 
@@ -48,7 +48,6 @@ def generate_meal_plan():
             return '', 500
 
         return json.dumps(response), 200
-
 
     except Exception as e:
         print(e)
