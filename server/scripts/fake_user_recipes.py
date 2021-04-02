@@ -10,28 +10,34 @@ script=("fake_info.sql","a")
 
 password= "password123"
 password =hashlib.sha256(password)
-
+emails = set()
 urls=["gmail","outlook","yahoo","aol"]
 
-for _ in range(200000):
-    f_name,l_name=fake.name().split(" ")
-    email= f_name + l_name+"@"+random.choice(urls)+".com"
-    add_users="INSERT INTO USER(first_name,last_name,email,password) VALUES({f_name},{l_name},{email},{password})"
-
-_file = open('Recipes.json', 'r')
+_file = open('datasets\Recipes.json', 'r')
 result = json.loads(_file.read())
 
-for _ in range(600000):
-    n=random.randint(0,8)
+for _ in range(5):
+    f_name,l_name=fake.name().split(" ")
+    email= f_name + l_name+"@"+random.choice(urls)+".com"
+    while email in emails:
+        f_name,l_name=fake.name().split(" ")
+        email= f_name + l_name+"@"+random.choice(urls)+".com"
+    
+    add_user="INSERT INTO USER(first_name,last_name,email,password) VALUES({f_name},{l_name},{email},{password})"
+    emails.add(email)
 
-    name= result[n]['name']
-    instructions= result[n]['steps']
-    date=datetime.now()
-    user_id= fake.random_int(min=1, max=200000)
-    add_recipes= "INSERT INTO RECIPE(name,instructions,date_created,user_id) VALUES({name},{instructions},{date},{user_id})"
+    user_id="SELECT User.id from User ORDER BY User.id DESC LIMIT 1"
 
-     
-script.write(add_users)
-script.write(add_recipes)
+    for _ in range(3):    
+        n=random.randint(0,8)
+        name= result[n]['name']
+        instructions= result[n]['steps']
+        date=datetime.now()
+    
+        add_recipe= "INSERT INTO RECIPES(name,instructions,date_created,user_id) VALUES({name},{instructions},{date},{user_id})"
+        script.write(add_recipe)
+
+script.write(add_user)    
+
 
 script.close()
