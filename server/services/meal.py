@@ -59,7 +59,7 @@ def generate_meal_plan(start_date, end_date):
     #commit = False
     date= end_date
     date += timedelta(days=1)
-    
+
     if plannedMeal_insert:
         for day in range(start_date, date):
             #generates a random meal 
@@ -107,8 +107,8 @@ def generate_meal_plan(start_date, end_date):
 
 def previousMeals_service(meal_type, schedule_date):
     previous_meals=select(
-        f"""SELECT * from Meals_Plans WHERE meal_type='meal_type'
-        AND schedule_date='schedule_date' """
+        f"""SELECT * from Meals_Plans WHERE meal_type='{meal_type}'
+        AND schedule_date='{schedule_date}' """
     )
 
     return previous_meals
