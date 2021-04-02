@@ -1,60 +1,103 @@
-Create Table User(
+-- CREATING DATABASE
+
+DROP DATABASE IF EXISTS my_recipe_db;
+CREATE DATABASE my_recipe_db;
+USE my_recipe_db;
+
+-- TABLE SCHEMA
+
+CREATE TABLE Users(
 	user_id int auto_increment not null,
 	first_name varchar(30),
 	last_name varchar(30),
-	username varchar(20),
 	email varchar(40),
 	password varchar(40),
-	primary key(id)
-);
-Create Table Ingredients(
-	id int auto_increment not null,
-	name varchar(30),
-	avaiable_quantity varchar(50),
-	user_id varchar(15),
-	measurement_name(30),
-	primary key(id),
-	foreign key(user_id) references User(user_id) on delete cascade on update cascade
-);
-
-Create Table Recipe(
-	id int auto_increment not null,
-	name varchar(100),
-	instructions varchar(30),
-	date_created date,
-	user_id varchar(15),
-	ingredient_id varchar(255),
-	primary key(recipe_id),
-	foreign key(user_id) references User(user_id) on delete cascade on update cascade
+	primary key(user_id)
 );
 
 
-Create Table Recipe_Ingredients(
+CREATE TABLE Recipes(
 	recipe_id int auto_increment not null,
-	ingredient_id varchar(255),
-	foreign key(recipe_id),
-	foreign key(ingredient_id) references Recipe(ingredient_id) on delete cascade on update cascade
+	name varchar(30),
+	instructions varchar(255),
+	date_created date,
+	user_id int not null,
+	primary key(recipe_id),
+    foreign key(user_id) references Users(user_id) on delete cascade
+);
+
+CREATE TABLE Ingredients(
+	ingredient_id int auto_increment not null,
+	name varchar(30),
+	primary key(ingredient_id)
+);
+
+CREATE TABLE Meals(
+	meal_id int auto_increment not null,
+	image TEXT,
+	calories double,
+	servings int,
+    user_id int not null,
+	primary key(meal_id),
+    foreign key(user_id) references Users(user_id) on delete cascade
+);
+
+CREATE TABLE Measurements(
+	measure_id int auto_increment not null,
+	unit varchar(20),
+	primary key(measure_id)
+);
+
+CREATE TABLE Measurements_Ingredients(
+	measure_id int not null,
+	ingredient_id int not null,
+	primary key(measure_id, ingredient_id),
+	foreign key (measure_id) references Measurements(measure_id) on update cascade on delete cascade,
+	foreign key (ingredient_id) references Ingredients(ingredient_id) on update cascade on delete cascade
 );
 
 
-Create Table Meal(
-	id int auto_increment not null,
-	image varbinary(max),
-	calories varchar(30),
-	servings varchar(30),
-	primary key(id)
+CREATE TABLE Users_Ingredients(
+	user_id int not null,
+	ingredient_id int not null,
+	quantity double not null default 0,
+	primary key(user_id, ingredient_id),
+	foreign key (user_id) references Users(user_id) on update cascade on delete cascade,
+	foreign key (ingredient_id) references Ingredients(ingredient_id) on update cascade on delete cascade
 );
 
-Create Table Measurements(
-	id int auto_increment not null,
-	unit varbinary(max),
-	amount int,
-	primary key(id)
+CREATE TABLE Recipes_Ingredients(
+	recipe_id int not null,
+	ingredient_id int not null,
+    quantity double not null,
+	primary key(recipe_id, ingredient_id),
+	foreign key (recipe_id) references Recipes(recipe_id) on update cascade on delete cascade,
+	foreign key (ingredient_id) references Ingredients(ingredient_id) on update cascade on delete cascade
+);
+
+CREATE TABLE Meals_Recipes(
+	recipe_id int not null,
+	meal_id int not null,
+	primary key(recipe_id, meal_id),
+	foreign key (recipe_id) references Recipes(recipe_id) on update cascade on delete cascade,
+	foreign key (meal_id) references Meals(meal_id) on update cascade on delete cascade
 );
 
 Create Table Planned_Meal(
-	id int auto_increment not null,
+	planned_meal_id int auto_increment not null,
 	week_start date,
 	week_end date,
-	primary key(id)
+	primary key(planned_meal_id)
 );
+
+CREATE TABLE Meals_Plans(
+	planned_meal_id int not null,
+	meal_id int not null,
+	meal_type enum("Breakfast", "Lunch", "Dinner"),
+	schedule_date date,
+	primary key(meal_id, planned_meal_id),
+	foreign key (planned_meal_id) references Planned_Meal(planned_meal_id) on update cascade on delete cascade,
+	foreign key (meal_id) references Meals(meal_id) on update cascade on delete cascade
+);
+
+-- STORED PROCEDURES
