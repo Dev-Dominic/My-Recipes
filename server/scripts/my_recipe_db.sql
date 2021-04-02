@@ -37,7 +37,7 @@ CREATE TABLE Meals(
 	image TEXT,
 	calories double,
 	servings int,
-    user_id int not null,
+    	user_id int not null,
 	primary key(meal_id),
     foreign key(user_id) references Users(user_id) on delete cascade
 );
@@ -69,7 +69,7 @@ CREATE TABLE Users_Ingredients(
 CREATE TABLE Recipes_Ingredients(
 	recipe_id int not null,
 	ingredient_id int not null,
-    quantity double not null,
+    	quantity double not null,
 	primary key(recipe_id, ingredient_id),
 	foreign key (recipe_id) references Recipes(recipe_id) on update cascade on delete cascade,
 	foreign key (ingredient_id) references Ingredients(ingredient_id) on update cascade on delete cascade
