@@ -5,6 +5,48 @@ from ..services.meal import create_meal_service, generate_meal_plan, previousMea
 
 meal = Blueprint('meal', __name__)
 
+
+
+@meal.route('/',methods=['GET'])
+def previous_meal():
+        try:
+            json_request = request.json
+            meal_type= json_request['meal_type']
+            schedule_date= json_request['schedule_date']
+
+            response= previousMeals_service(meal_type, schedule_date)
+            return json.dumps(response), 200
+        except Exception as e:
+            print(e)
+            return json.dumps({ "error_message": "Unable to retrieve data"
+                            }), 500
+
+
+@meal.url_defaults
+def add_language_code(endpoint,values):
+    values.setdefault('calorie_count', g.lang_code)
+
+@meal.url_value_preprocessor
+def pull_lang_code(endpoint,values):
+    g.lang_code=values.pop('calorie_count')
+
+
+@meal.route('/<calorie_count>',methods=['GET'])
+def meal_byCalorieCount(calorie_count):
+        try:
+            '''
+            json_request = request.json
+            calories=json_request['calories']
+            '''
+
+            response= mealPlan_byCalories(calorie_count)
+            return json.dumps(response), 200
+        except Exception as e:
+            print(e)
+            return json.dumps({ "error_message": "Unable to retrieve data"
+                            }), 500
+
+
 @meal.route('/', methods=['POST'])
 def create_meal():
     try:
@@ -55,33 +97,3 @@ def generate_meal_plan():
                           }), 500
 
 
-
-@meal.route('/',methods=['GET'])
-def previous_meal():
-        try:
-            json_request = request.json
-            meal_type= json_request['meal_type']
-            schedule_date= json_request['schedule_date']
-
-            response= previousMeals_service(meal_type, schedule_date)
-            return json.dumps(response), 200
-        except Exception as e:
-            print(e)
-            return json.dumps({ "error_message": "Unable to retrieve data"
-                            }), 500
-
-
-
-@meal.route('/<calorie_count>',methods=['GET'])
-def meal_byCalorieCount():
-        try:
-            json_request = request.json
-            #user_id = json_request['user_id']
-            #name = json_request['name']
-
-            response= mealPlan_byCalories()
-            return json.dumps(response), 200
-        except Exception as e:
-            print(e)
-            return json.dumps({ "error_message": "Unable to retrieve data"
-                            }), 500
