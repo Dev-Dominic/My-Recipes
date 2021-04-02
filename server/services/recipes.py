@@ -47,4 +47,5 @@ def get_recipes_service(user_id,name):
     recipe_search=select(
     f"""SELECT * FROM Recipes WHERE name LIKE '%{name}%' AND user_id='{user_id}' """
     )
+    
     return recipe_search
