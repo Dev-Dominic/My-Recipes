@@ -1,4 +1,5 @@
 from ..utils.db import insert_update, select
+import datetime
 
 def create_meal_service(image_name, calories, servings, recipe_id_list,user_id):
     resp = None
@@ -56,8 +57,11 @@ def generate_meal_plan(start_date, end_date):
 
     plannedMeal_id= plannedMeal_insert.id
     #commit = False
+    date= end_date
+    date += timedelta(days=1)
+    
     if plannedMeal_insert:
-        for day = start_date to end_date:
+        for day in range(start_date, date):
             #generates a random meal 
             breakfast= select(
                 f"""SELECT meals_id from Meals ORDER BY RAND() LIMIT 1"""
@@ -101,9 +105,10 @@ def generate_meal_plan(start_date, end_date):
     return resp
 
 
-def previousMeals_service():
+def previousMeals_service(meal_type, schedule_date):
     previous_meals=select(
-        f"""SELECT * from table"""
+        f"""SELECT * from Meals_Plans WHERE meal_type='meal_type'
+        AND schedule_date='schedule_date' """
     )
 
     return previous_meals
