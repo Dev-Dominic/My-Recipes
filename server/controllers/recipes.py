@@ -3,7 +3,7 @@ from flask import Blueprint, request
 import json
 
 # Project Modules
-from ..services.recipes import create_recipe_service
+from ..services.recipes import create_recipe_service, get_recipes_service
 
 recipes = Blueprint('recipe', __name__)
 
@@ -32,3 +32,18 @@ def create_recipe():
         print(e)
         return json.dumps({ "error_message": "Please to enter all required data"
                           }), 500
+
+
+@recipes.route('/',methods=['GET'])
+def recipe_search():
+        try:
+            json_request = request.json
+            user_id = json_request['user_id']
+            name = json_request['name']
+
+            response= get_recipes_service(user_id,name)
+            return json.dumps(response), 200
+        except Exception as e:
+            print(e)
+            return json.dumps({ "error_message": "Unable to retrieve data"
+                            }), 500

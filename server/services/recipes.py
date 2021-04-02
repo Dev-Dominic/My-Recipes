@@ -1,4 +1,4 @@
-from ..utils.db import insert_update
+from ..utils.db import insert_update, select
 
 def create_recipe_service(name, instructions, ingredients_id_list, user_id):
     resp = None
@@ -40,4 +40,11 @@ def create_recipe_service(name, instructions, ingredients_id_list, user_id):
             ingredients_id_list: ingredients_id_list
         }
 
-    return resp # None
+    return resp
+
+
+def get_recipes_service(user_id,name):
+    recipe_search=select(
+    f"""SELECT * FROM Recipes WHERE name LIKE '%{name}%' AND user_id='{user_id}' """
+    )
+    return recipe_search
