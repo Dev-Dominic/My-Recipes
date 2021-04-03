@@ -30,15 +30,21 @@ def convert_to_float(frac_str):
 def measurements_ingredients_creation():
     # 1. Pull all ingredients from dataset
     #opening the json file
-    result=open_sql_file()
-    script=open("fake_info_measurements_ingredients.sql","w")
-    ingredients_list=[]
+    print(open_sql_file())
+
+"""     result=open_sql_file()
+    print(result) """
+"""     script=open("fake_info_measurements_ingredients.sql","w")
+    ingredients_list=[] """
     #measurements=[]
 
-    for n in range(0,8):
+"""     for n in range(0,9):
         ingredients = result[n]['ingredients']
+        ingredients_len=len(ingredients)+1
+        print(result) """
 
-        for ingredient in ingredients:
+"""         for ingredient in range(ingredients_len):
+            print(ingredients[i]) 
             ingredient_name = ingredient['name']
             quantity = ingredient['quantity'].split(' ')
 
@@ -68,7 +74,7 @@ def measurements_ingredients_creation():
         # 6. After each ingredient and measurement relationship is established write
         # to file
         script.write(measure_ingredients)
-    script.close()
+    script.close() """
 
 def user_recipe_creation():
     # Appending user and recipe data below measurements and ingredients data
@@ -110,7 +116,7 @@ def user_recipe_creation():
         script.write(add_user)
 
         for _ in range(3):
-            n=random.randint(0,8)
+            n=random.randint(0,9)
             name= result[n]['name']
             instructions= result[n]['steps']
             ingredients = result[n]['ingredients']
