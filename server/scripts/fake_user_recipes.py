@@ -27,7 +27,7 @@ def convert_to_float(frac_str):
         frac = float(num) / float(denom)
         return whole - frac if whole < 0 else whole + frac
 
-def meassurements_ingredients_creation():
+def measurements_ingredients_creation():
     # 1. Pull all ingredients from dataset
     # 2. Create a unique list of ingredients
     # 3. Create a unique list of measurements
