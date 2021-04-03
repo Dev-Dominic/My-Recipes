@@ -11,19 +11,25 @@ CREATE TABLE Users(
 	first_name varchar(30),
 	last_name varchar(30),
 	email varchar(40),
-	password varchar(40),
+	password varchar(255),
 	primary key(user_id)
 );
-
 
 CREATE TABLE Recipes(
 	recipe_id int auto_increment not null,
 	name varchar(30),
-	instructions varchar(255),
 	date_created date,
 	user_id int not null,
 	primary key(recipe_id),
     foreign key(user_id) references Users(user_id) on delete cascade
+);
+
+CREATE TABLE Instructions(
+	instruction_id int auto_increment not null,
+	recipe_id int not null,
+	step varchar(255),
+	primary key(instruction_id),
+	foreign key(recipe_id) references Recipes(recipe_id) on delete cascade
 );
 
 CREATE TABLE Ingredients(

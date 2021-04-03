@@ -1,4 +1,5 @@
 from ..utils.db import insert_update, select
+import datetime
 
 def create_meal_service(image_name, calories, servings, recipe_id_list,user_id):
     resp = None
@@ -54,47 +55,70 @@ def generate_meal_plan(start_date, end_date):
 
     mealPlan_inserted = False
 
-    #type_len=len(meal_type)
+    plannedMeal_id= plannedMeal_insert.id
     #commit = False
+    date= end_date
+    date += timedelta(days=1)
+
     if plannedMeal_insert:
-        #for count, type in enumerate(meal_type):
-
-            # Performs commit on last meal plan insertion
-            '''
-            if(count+1 ==  type_len):
-                commit = True
-            '''
-
-            mealPlan_inserted = insert_update(
-                f"""INSERT INTO Meals_Plans(planned_meal_id, meal_type, schdeule_date)
-                VALUES({plannedMeal_insert.id}, {week_start}, {week_end})"""
-                , commit
+        for day in range(start_date, date):
+            #generates a random meal 
+            breakfast= select(
+                f"""SELECT meals_id from Meals ORDER BY RAND() LIMIT 1"""
             )
+            lunch= select(
+                f"""SELECT meals_id from Meals ORDER BY RAND() LIMIT 1"""
+            )
+            dinner= select(
+                f"""SELECT meals_id from Meals ORDER BY RAND() LIMIT 1"""
+            )
+
+
+            breakfast_plan= insert_update(
+                f"""INSERT INTO Meals_Plans (planned_meal_id, meal_id, meal_type,schedule_date)
+                VALUES ({plannedMeal_id}, {lunch}, "Breakfast", {day})  """
+            )
+
+            lunch_plan= insert_update(
+                f"""INSERT INTO Meals_Plans (planned_meal_id, meal_id, meal_type,schedule_date)
+                VALUES ({plannedMeal_id}, {breakfast}, "Lunch", {day})  """
+            )
+
+            dinner_plan= insert_update(
+                f"""INSERT INTO Meals_Plans (planned_meal_id, meal_id, meal_type,schedule_date)
+                VALUES ({plannedMeal_id}, {dinner}, "Dinner", {day})  """
+            )   
+
+            if breakfast_plan and lunch_plan and dinner_plan:
+                mealPlan_inserted = True
 
             if mealPlan_inserted is False:
                 break
-
-
-    if mealPlan_inserted:
-        resp = {
-            id: plannedMeal_inserted.id,
-            start_date: meal_type,
-            end_date: end_date
+            
+    if plannedMeal_insert:
+        resp={
+            id: plannedMeal_insert.id,
+            week_start: week_start,
+            week_end: week_end
         }
 
     return resp
 
-def previousMeals_service():
+
+def previousMeals_service(meal_type, schedule_date):
     previous_meals=select(
-        f"""SELECT * from table"""
+        f"""SELECT * from Meals_Plans WHERE meal_type='{meal_type}'
+        AND schedule_date='{schedule_date}' """
     )
 
     return previous_meals
 
 
-def mealPlan_byCalories():
+def mealPlan_byCalories(calorie_count):
     meal_calories=select(
-        f"""SELECT * from table"""
+        f"""SELECT * FROM Meals_Plan JOIN Meals 
+        ON Meals_Plan.meal_id=Meals.meal_id
+        WHERE Meals.calories='{calorie_count}' """
     )
 
     return meal_calories
