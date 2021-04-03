@@ -2,6 +2,7 @@ from ..utils.db import insert_update, select
 
 def create_recipe_service(name, instructions, ingredients_id_list, user_id):
     resp = None
+
     recipe_inserted = insert_update(
         f"""INSERT INTO Recipes(name, instructions, user_id, date)
         VALUES({name}, {instructions}, {user_id}, NOW())"""
@@ -32,7 +33,7 @@ def create_recipe_service(name, instructions, ingredients_id_list, user_id):
 
     # Creating response object after successfully creating recipe
     # and creating relationship between all ingredients and newly create recipe
-    if ingredients_inserted:
+    if ingredient_inserted:
         resp = {
             id: recipe_inserted.id,
             name: name,
@@ -47,5 +48,4 @@ def get_recipes_service(user_id,name):
     recipe_search=select(
     f"""SELECT * FROM Recipes WHERE name LIKE '%{name}%' AND user_id='{user_id}' """
     )
-    
     return recipe_search
