@@ -31,40 +31,43 @@ def measurements_ingredients_creation():
     # 1. Pull all ingredients from dataset
     #opening the json file
     result=open_sql_file()
-    for n in range(0,8):
-        ingredients= result[n]['ingredients']
-
-    # 2. Create a unique list of ingredients
-    quantity=[]
-    #measure=[]
     script=open("fake_info_measurements_ingredients.sql","w")
-    for i in ingredients:
-        quantity.append(ingredients[i]['quantity'])
-        name=ingredients[i]['name']
-        # Insert Ingredient
-        add_ingredient="INSERT INTO Ingredients(name) VALUES('{}');\n".format(name)
-        script.write(add_ingredient)
-        ingredients_id= """SELECT ingredient_id from Ingredients ORDER BY ingredient_id DESC LIMIT 1"""
+    ingredients_list=[]
+    #measurements=[]
+
+    for n in range(0,8):
+        ingredients = result[n]['ingredients']
+
+        for ingredient in ingredients:
+            ingredient_name = ingredient['name']
+            quantity = ingredient['quantity'].split(' ')
+
+            # 2. Create a unique list of ingredients
+            ingredients_list.append(ingredient)
+
+            # Insert Ingredient
+            add_ingredient="INSERT INTO Ingredients(name) VALUES('{}');\n".format(ingredient_name)
+            script.write(add_ingredient)
+            ingredient_id= """SELECT ingredient_id from Ingredients ORDER BY ingredient_id DESC LIMIT 1"""
+
 
     # 3. Create a unique list of measurements
-        for n in quantity:
-            quantity= (quantity[n]).split(" ")
-            #measure.append(quantity[0])
-            units=quantity[1]
-            # Insert Measurements
-            add_measurement="INSERT INTO Measurements(units) VALUES('{}');\n".format(units)
-            script.write(add_measurement)
-            measure_id= """SELECT measure_id from Measurements ORDER BY measure_id DESC LIMIT 1"""
-    
-    # 4. Create query to link ingredient and measurement in
-    # Measurements_Ingredients table
-    
-    
-    measure_ingredients="INSERT INTO Measurements_Ingredients(measure_id,ingredient_id) VALUES('{}','{}');\n".format(measure_id,ingredients_id)
+            for n in quantity:
+                #measurements.append(quantity[0])
+                units=quantity[1]
+                # Insert units into Measurements table
+                add_measurement="INSERT INTO Measurements(units) VALUES('{}');\n".format(units)
+                script.write(add_measurement)
+                measure_id= """SELECT measure_id from Measurements ORDER BY measure_id DESC LIMIT 1"""
+        
+        # 4. Create query to link ingredient and measurement in
+        # Measurements_Ingredients table
+        
+        measure_ingredients="INSERT INTO Measurements_Ingredients(measure_id,ingredient_id) VALUES('{}','{}');\n".format(measure_id,ingredient_id)
 
-    # 6. After each ingredient and measurement relationship is established write
-    # to file
-    script.write(measure_ingredients)
+        # 6. After each ingredient and measurement relationship is established write
+        # to file
+        script.write(measure_ingredients)
     script.close()
 
 def user_recipe_creation():
