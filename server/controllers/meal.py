@@ -1,11 +1,11 @@
 from flask import Blueprint, request
 import json
+import datetime
 
-from ..services.meal import create_meal_service, generate_meal_plan, previousMeals_service, mealPlan_byCalories
+from ..services.meal import (create_meal_service, generate_meal_plan,
+                             previousMeals_service, mealPlan_byCalories)
 
 meal = Blueprint('meal', __name__)
-
-
 
 @meal.route('/',methods=['GET'])
 def previous_meal():
@@ -21,17 +21,7 @@ def previous_meal():
             return json.dumps({ "error_message": "Unable to retrieve data"
                             }), 500
 
-
-@meal.url_defaults
-def add_language_code(endpoint,values):
-    values.setdefault('calorie_count', g.lang_code)
-
-@meal.url_value_preprocessor
-def pull_lang_code(endpoint,values):
-    g.lang_code=values.pop('calorie_count')
-
-
-@meal.route('/<calorie_count>',methods=['GET'])
+@meal.route('/<calorie_count>', methods=['GET'])
 def meal_byCalorieCount(calorie_count):
         try:
             '''
@@ -57,11 +47,11 @@ def create_meal():
         servings= json_request['servings']
         recipe_id_list= json.request['recipe_id_list']
 
-        if not (len(image_name) >= 3 and len(calories) = 0 
-        and len(servings) = 0 len(recipe_id_list) > 1):
+        if not (len(image_name) >= 3 and calories > 0  and servings > 0
+                and len(recipe_id_list) > 1):
             return json.dumps({ "error_message": "Please to enter all required data"
                               }), 500
-        
+
         response = create_meal_service(image_name, calories, servings,recipe_id_list, user_id)
 
         if response is None:
@@ -72,15 +62,21 @@ def create_meal():
         print(e)
         return json.dumps({ "error_message": "Please to enter all required data"
                           }), 500
-    
 
 def generate_meal_plan():
     try:
         json_request = request.json
         start_date = json_request['start_date']
         end_date = json_request['end_date']
-        
-        if not (len(start_date) >= 8 and len(end_date) >= 8 :
+
+        # Testing for proper date string for start_date and end_date
+        # Should throw an error for incorrect date string
+        date_format = "%Y-%m-%d"
+        start_date_format = datetime.datetime.strptime(start_date, format)
+        end_date_format = datetime.datetime.strptime(end_date, format)
+
+        # Checking that end date is older than start date
+        if not (end_date_format > start_date_format):
             return json.dumps({ "error_message": "Please to enter all required data"
                               }), 500
 
@@ -95,5 +91,4 @@ def generate_meal_plan():
         print(e)
         return json.dumps({ "error_message": "Please to enter all required data"
                           }), 500
-
 

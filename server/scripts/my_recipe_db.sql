@@ -17,8 +17,8 @@ CREATE TABLE Users(
 
 CREATE TABLE Recipes(
 	recipe_id int auto_increment not null,
-	name varchar(30),
-	date_created date,
+	name varchar(255),
+	date_created date not null default now(),
 	user_id int not null,
 	primary key(recipe_id),
     foreign key(user_id) references Users(user_id) on delete cascade
@@ -91,8 +91,8 @@ CREATE TABLE Meals_Recipes(
 
 Create Table Planned_Meal(
 	planned_meal_id int auto_increment not null,
-	week_start date,
-	week_end date,
+	week_start date not null,
+	week_end date not null,
 	primary key(planned_meal_id)
 );
 
@@ -100,7 +100,7 @@ CREATE TABLE Meals_Plans(
 	planned_meal_id int not null,
 	meal_id int not null,
 	meal_type enum("Breakfast", "Lunch", "Dinner"),
-	schedule_date date,
+	schedule_date date not null,
 	primary key(meal_id, planned_meal_id),
 	foreign key (planned_meal_id) references Planned_Meal(planned_meal_id) on update cascade on delete cascade,
 	foreign key (meal_id) references Meals(meal_id) on update cascade on delete cascade

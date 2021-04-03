@@ -20,10 +20,8 @@ def create_meal_service(image_name, calories, servings, recipe_id_list,user_id):
         for count, recipe_id in enumerate(recipe_id_list):
 
             # Performs commit on last meal insertion
-        
             if(count+1 ==  recipes_len):
                 commit = True
-        
 
             meal_recipe_inserted = insert_update(
                 f"""INSERT INTO Meals_Recipes(recipe_id),(meal_id)
@@ -116,7 +114,7 @@ def previousMeals_service(meal_type, schedule_date):
 
 def mealPlan_byCalories(calorie_count):
     meal_calories=select(
-        f"""SELECT * FROM Meals_Plan JOIN Meals 
+        f"""SELECT * FROM Meals_Plan JOIN Meals
         ON Meals_Plan.meal_id=Meals.meal_id
         WHERE Meals.calories='{calorie_count}' """
     )

@@ -4,10 +4,12 @@ import json
 
 # Project Modules
 from ..services.recipes import create_recipe_service, get_recipes_service
+from ..utils.auth import auth_guard
 
 recipes = Blueprint('recipe', __name__)
 
 @recipes.route('/', methods=['POST'])
+@auth_guard
 def create_recipe():
 
     try:
