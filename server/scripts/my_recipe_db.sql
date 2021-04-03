@@ -15,23 +15,22 @@ CREATE TABLE Users(
 	primary key(user_id)
 );
 
-CREATE TABLE Instructions(
-	instruction_id int auto_increment not null,
-	step varchar(255),
-	primary key(instruction_id)
-);
-
 CREATE TABLE Recipes(
 	recipe_id int auto_increment not null,
 	name varchar(30),
-	instruction_id int not null,
 	date_created date,
 	user_id int not null,
 	primary key(recipe_id),
-    foreign key(user_id) references Users(user_id) on delete cascade,
-	foreign key(instruction_id) references Instructions(instruction_id) on delete cascade
+    foreign key(user_id) references Users(user_id) on delete cascade
 );
 
+CREATE TABLE Instructions(
+	instruction_id int auto_increment not null,
+	recipe_id int not null,
+	step varchar(255),
+	primary key(instruction_id),
+	foreign key(recipe_id) references Recipes(recipe_id) on delete cascade
+);
 
 CREATE TABLE Ingredients(
 	ingredient_id int auto_increment not null,

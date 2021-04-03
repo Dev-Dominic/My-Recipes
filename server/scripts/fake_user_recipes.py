@@ -46,11 +46,13 @@ for _ in range(200000):
             step= instructions[i]
 
 
-        add_instructions="INSERT INTO INSTRUCTIONS(step) VALUES('{}');\n".format(step)
-        instruction_id= """SELECT instruction_id from instructions ORDER BY instructions.instruction_id DESC LIMIT 1"""
+        add_recipe= "INSERT INTO RECIPES(name,date_created,user_id) VALUES('{}','{}',({}));\n".format(name,date,user_id)
+        recipe_id= """SELECT recipe_id from RECIPES ORDER BY recipes.recipe_id DESC LIMIT 1"""
 
-        add_recipe= "INSERT INTO RECIPES(name,instruction_id,date_created,user_id) VALUES('{}',({}),'{}',({}));\n".format(name,instruction_id,date,user_id)
-        script.write(add_instructions)
+        add_instructions="INSERT INTO INSTRUCTIONS(recipe_id,step) VALUES(({}),'{}');\n".format(recipe_id,step)
+
         script.write(add_recipe)
+        script.write(add_instructions)
+        
 
 script.close()
