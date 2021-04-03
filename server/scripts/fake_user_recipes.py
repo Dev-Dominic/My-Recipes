@@ -29,6 +29,8 @@ def convert_to_float(frac_str):
 
 def measurements_ingredients_creation():
     # 1. Pull all ingredients from dataset
+    #opening the json file
+    result=open_sql_file()
     for n in range(0,8):
         ingredients= result[n]['ingredients']
 
@@ -73,6 +75,9 @@ def user_recipe_creation():
 
     # Creating Faker Object instance
     fake = Faker()
+
+    #opening the json file
+    result=open_sql_file()
 
     # User Information
     password= "password123"
