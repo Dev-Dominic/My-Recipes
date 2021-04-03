@@ -3,9 +3,9 @@ import mysql.connector
 def db_connection():
     mydb = mysql.connector.connect(
         host="localhost",
-        user="my-recipe",
+        user="my_recipe_db",
         password="password",
-        database="my-recipe"
+        database="my_recipe_db"
     )
     mydb.autocommit = False
     cursor = mydb.cursor()
@@ -14,7 +14,7 @@ def db_connection():
 
 def insert_update(queryString, commit=False):
     # Getting database connection instance and cusror to execute queries
-    mydb, cursor = db_connection
+    mydb, cursor = db_connection()
     try:
 
         print(f"Executing query: {queryString}")
