@@ -19,17 +19,15 @@ CREATE TABLE Recipes(
 	recipe_id int auto_increment not null,
 	name varchar(255),
 	date_created date not null default now(),
-	user_id int not null,
+	instructions_id int not null,
 	primary key(recipe_id),
-    foreign key(user_id) references Users(user_id) on delete cascade
+	foreign key (instructions_id) references Instructions(instruction_id) on delete cascade
 );
 
 CREATE TABLE Instructions(
 	instruction_id int auto_increment not null,
-	recipe_id int not null,
-	step varchar(255),
+	steps varchar(255),
 	primary key(instruction_id),
-	foreign key(recipe_id) references Recipes(recipe_id) on delete cascade
 );
 
 CREATE TABLE Ingredients(
@@ -88,6 +86,13 @@ CREATE TABLE Meals_Recipes(
 	foreign key (recipe_id) references Recipes(recipe_id) on update cascade on delete cascade,
 	foreign key (meal_id) references Meals(meal_id) on update cascade on delete cascade
 );
+CREATE TABLE recipe_instructions(
+	recipe_id not null,
+	instruction_id not null,
+	primary key (recipe_id, instructions_id),
+	foreign key (recipe_id) references Recipes(recipe_id) on update cascade on delete cascade,
+	foreign key (instructions_id) references Instructions(instructions_id) on updtae cascade on delete cascade
+);
 
 Create Table Planned_Meal(
 	planned_meal_id int auto_increment not null,
@@ -106,4 +111,6 @@ CREATE TABLE Meals_Plans(
 	foreign key (meal_id) references Meals(meal_id) on update cascade on delete cascade
 );
 
+
+	
 -- STORED PROCEDURES
