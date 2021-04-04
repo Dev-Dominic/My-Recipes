@@ -20,10 +20,8 @@ def create_meal_service(image_name, calories, servings, recipe_id_list,user_id):
         for count, recipe_id in enumerate(recipe_id_list):
 
             # Performs commit on last meal insertion
-        
             if(count+1 ==  recipes_len):
                 commit = True
-        
 
             meal_recipe_inserted = insert_update(
                 f"""INSERT INTO Meals_Recipes(recipe_id),(meal_id)
@@ -62,7 +60,7 @@ def generate_meal_plan(start_date, end_date):
 
     if plannedMeal_insert:
         for day in range(start_date, date):
-            #generates a random meal 
+            #generates a random meal
             breakfast= select(
                 f"""SELECT meals_id from Meals ORDER BY RAND() LIMIT 1"""
             )
@@ -87,14 +85,13 @@ def generate_meal_plan(start_date, end_date):
             dinner_plan= insert_update(
                 f"""INSERT INTO Meals_Plans (planned_meal_id, meal_id, meal_type,schedule_date)
                 VALUES ({plannedMeal_id}, {dinner}, "Dinner", {day})  """
-            )   
+            )
 
             if breakfast_plan and lunch_plan and dinner_plan:
                 mealPlan_inserted = True
 
             if mealPlan_inserted is False:
                 break
-            
     if plannedMeal_insert:
         resp={
             id: plannedMeal_insert.id,
@@ -116,7 +113,7 @@ def previousMeals_service(meal_type, schedule_date):
 
 def mealPlan_byCalories(calorie_count):
     meal_calories=select(
-        f"""SELECT * FROM Meals_Plan JOIN Meals 
+        f"""SELECT * FROM Meals_Plan JOIN Meals
         ON Meals_Plan.meal_id=Meals.meal_id
         WHERE Meals.calories='{calorie_count}' """
     )
