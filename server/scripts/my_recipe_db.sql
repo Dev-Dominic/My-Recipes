@@ -86,13 +86,6 @@ CREATE TABLE Meals_Recipes(
 	foreign key (recipe_id) references Recipes(recipe_id) on update cascade on delete cascade,
 	foreign key (meal_id) references Meals(meal_id) on update cascade on delete cascade
 );
-CREATE TABLE recipe_instructions(
-	recipe_id not null,
-	instruction_id not null,
-	primary key (recipe_id, instructions_id),
-	foreign key (recipe_id) references Recipes(recipe_id) on update cascade on delete cascade,
-	foreign key (instructions_id) references Instructions(instructions_id) on updtae cascade on delete cascade
-);
 
 Create Table Planned_Meal(
 	planned_meal_id int auto_increment not null,
