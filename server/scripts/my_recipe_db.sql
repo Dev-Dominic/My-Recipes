@@ -118,14 +118,15 @@ DELIMITER ;
 
 
 DELIMITER //
-    CREATE PROCEDURE get_supermarketList(IN user_id int)
+    CREATE PROCEDURE get_supermarketList(IN user_id int, meal_plan int)
     BEGIN
 	SELECT recipes_ingredients.quantity - Users_Ingredients.quantity AS 'Quantity Required',
-	recipes_ingredients.ingredient_id AS 'Item ID'
-	FROM recipes_ingredients JOIN Users_Ingredients
-	WHERE user_id= Users_Ingredients.user_id; 
+	ingredients.name AS 'Item '
+	FROM recipes_ingredients JOIN Users_Ingredients JOIN ingredients JOIN Meals_Plans JOIN Meals
+	WHERE user_id= Users_Ingredients.user_id AND meal_plan = Meals_Plans.planned_meal_id
+	GROUP BY Users_Ingredients.ingredient_id; 
 END //
 DELIMITER ;
 
-call get_supermarketList('1');
 
+call get_supermarketList('1','2');
