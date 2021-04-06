@@ -3,12 +3,14 @@ import mysql.connector
 def db_connection():
     mydb = mysql.connector.connect(
         host="localhost",
-        user="my_recipe_db",
+        user="test_user",
         password="password",
         database="my_recipe_db"
     )
     mydb.autocommit = False
     cursor = mydb.cursor()
+
+    print('returning cursor')
 
     return mydb, cursor
 
@@ -36,7 +38,7 @@ def insert_update(queryString, commit=False):
 def select(queryString):
     try:
         # Getting database connection instance and cusror to execute queries
-        _, cursor = db_connection
+        _, cursor = db_connection()
 
         print(f'Executing query: {queryString}')
         cursor.execute(queryString);

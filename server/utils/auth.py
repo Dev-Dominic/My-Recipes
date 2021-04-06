@@ -5,9 +5,6 @@ from functools import wraps
 from flask import request
 import jwt
 
-# Project Packges/Variables
-from .. import access_token_secret
-
 def auth_guard(endpoint):
     """ Decorator that determines whether user is able to access endpoint """
 
@@ -17,7 +14,7 @@ def auth_guard(endpoint):
             # Gets user access token from header
             # Throws an exception if token expires
             access_token = request.headers.get('Authorization').split(' ')[1]
-            jwt.decode(access_token, secret, algorithms=["HS256"])
+            jwt.decode(access_token, 'secret', algorithms=["HS256"])
 
             return endpoint(*args, **kwargs)
         except jwt.ExpiredSignatureError:
