@@ -116,3 +116,16 @@ DELIMITER //
 END //
 DELIMITER ;
 
+
+DELIMITER //
+    CREATE PROCEDURE get_supermarketList(IN user_id int)
+    BEGIN
+	SELECT recipes_ingredients.quantity - Users_Ingredients.quantity AS 'Quantity Required',
+	recipes_ingredients.ingredient_id AS 'Item ID'
+	FROM recipes_ingredients JOIN Users_Ingredients
+	WHERE user_id= Users_Ingredients.user_id; 
+END //
+DELIMITER ;
+
+call get_supermarketList('1');
+
