@@ -107,3 +107,12 @@ CREATE TABLE Meals_Plans(
 );
 
 -- STORED PROCEDURES
+
+DELIMITER //
+    CREATE PROCEDURE mealBy_calories(IN calorie_count double)
+    BEGIN
+    SELECT meal_id, image, calories, servings 
+	FROM Meals WHERE calories= calorie_count;  
+END //
+DELIMITER ;
+
