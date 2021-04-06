@@ -14,11 +14,11 @@ def user_login():
         email = json_request['email']
         password = json_request['password']
 
-        access_token = user_login_service(email, password)
+        access_token, user_id = user_login_service(email, password)
         if access_token is None:
             return '', 500
 
-        return json.dumps({'access_token': access_token}), 200
+        return json.dumps({'access_token': access_token, 'user_id': user_id}), 200
     except Exception as e:
         print(e)
         return json.dumps({ "error_message": "Please to enter all required data"

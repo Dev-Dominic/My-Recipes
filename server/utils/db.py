@@ -10,11 +10,9 @@ def db_connection():
     mydb.autocommit = False
     cursor = mydb.cursor()
 
-    print('returning cursor')
-
     return mydb, cursor
 
-def insert_update(queryString, commit=False):
+def insert_update(queryString, commit=False, want_result=False):
     # Getting database connection instance and cusror to execute queries
     mydb, cursor = db_connection()
     try:
@@ -22,18 +20,23 @@ def insert_update(queryString, commit=False):
         print(f"Executing query: {queryString}")
         cursor.execute(queryString);
 
+        print(cursor.rowcount, "record inserted/updated.")
+        result = None
+        if want_result:
+            result = cursor.fetchall()
+
         # Possibly the case that their are subsequent sql queries to be ran
         # thus changes may not be commited until all conditions and
         # insertions/updates are made.
         if commit is True:
             mydb.commit()
 
-        print(cursor.rowcount, "record inserted/updated.")
-        return True
+        return True, result
     except:
         print('An error occured when trying to execute query')
         mydb.rollback()
-        return False
+        mydb.close()
+        return False, None
 
 def select(queryString):
     try:

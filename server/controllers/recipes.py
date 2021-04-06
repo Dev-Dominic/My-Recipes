@@ -26,7 +26,6 @@ def create_recipe():
                               }), 500
 
         response = create_recipe_service(name, instructions, ingredients_id_list, user_id)
-
         if response is None:
             return '', 500
 
@@ -38,14 +37,14 @@ def create_recipe():
 
 
 @recipes.route('/',methods=['GET'])
+@auth_guard
 def recipe_search():
         try:
-            json_request = request.json
-            user_id = json_request['user_id']
-            name = json_request['name']
+            user_id = request.args.get('user_id')
+            name = request.args.get('name')
 
-            response= get_recipes_service(user_id,name)
-            return json.dumps(response), 200
+            response= get_recipes_service(user_id, name)
+            return json.dumps({'recipe_list': response}), 200
         except Exception as e:
             print(e)
             return json.dumps({ "error_message": "Unable to retrieve data"
