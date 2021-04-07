@@ -125,7 +125,9 @@ def user_recipe_creation():
     unique_count = 1
 
 
-    for _ in range(100): # Chanage to 2000000
+    # Generates 200,000 Users with each having 3 Recipes
+    # Therefore also generates 600,000 Recipes
+    for _ in range(2000000):
         name=fake.name().split(" ")
         f_name = name[0]
         l_name = name[1]
