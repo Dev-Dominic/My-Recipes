@@ -1,148 +1,139 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url("https://fonts.googleapis.com/css?family=Roboto");
 
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    outline: none;
-    font-family: sans-serif;
-    justify-content: center;
-    align-items: center;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+  font-family: sans-serif;
+  justify-content: center;
+  align-items: center;
 }
 
-body{
-    width : 80%;
-    background-size: cover;
-    height: 100vh;
-    border-color: black;
-    justify-content: center;
-    align-items: center;
-    
-}
-
-.container {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    max-width: 550px;
-    border-color: black;
-    padding: 30px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-}
-
-
-#steps{
-  width: 80px;  
-  margin-right: 5%;
-}
-
-.container .recipeform{
-    display:flex;
-    border-color: black;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-
-}
-.center{
-
-    display: flex;
-    flex-direction: column;
-    margin-right: 4%;
-
-}
-
-.container .recipeform .center .recipe{
-    margin: 10px 0;
-    border: 0px;
-    border-bottom: 2px solid black;
-    padding: 10px;
-    color: black;
-    width: 70%;
-    align-items: center;
-    justify-content:center ;
-}
-
-input[type=text]{
-    padding: 12px;
-    border: 3px solid black;
-    border-radius: 4px;
-    box-sizing: border-box;
-    resize: vertical;
-}
-
-input[type=file]{
-    padding: 12px;
-    border: 3px solid black;
-    border-radius: 4px;
-    box-sizing: border-box;
-    resize: vertical;
-}
-
-
-::-webkit-input-placeholder {
-
-    color: rgb(39, 38, 38);
-    text-align: center;
-}
-::-moz-placeholder {
-    
-    color: rgb(39, 38, 38);
-    text-align: center;
-}
-:-ms-input-placeholder {
-    color: rgb(39, 38, 38);
-    text-align: center;
-}
-
-@media screen and (max-width: 600px){
-    .container .recipeform{
-    flex-direction: column;
-    }
-}
-    
-.container .recipe div{
-    border-color: black;
-}
-
-.sendinfo .btn{
-    font-size: 15px;
-    font-weight: bolder;
-    height : 40px;
-    width : 100px;
-    color:rgb(233, 250, 233) ;
-    background-color: red;
-    margin-left: 500px;
-    
-}
-.sendinfo {
-    padding-top: 5px; 
+body {
+  background-size: cover;
+  height: 100vh;
+  border-color: black;
+  justify-content: center;
+  align-items: center;
 }
 
 label {
-    font-weight: bold;
+  display: block;
 }
 
-.stepsno{
-   display: flex;
-    
+.container {
+  display: flex;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  width: 75%;
+  max-width: 550px;
+  border-color: black;
+  padding: 30px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  justify-content: center;
+  align-items: center;
 }
 
-input{
-    height: 30px;
-    width: 70%;
-    justify-content: center;
-    align-items: center;
+#steps {
+  width: 80px;
+  margin-right: 5%;
+}
+
+.container .recipeform {
+  display: flex;
+  border-color: black;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.center {
+  display: flex;
+  flex-direction: column;
+  margin-right: 4%;
+}
+
+.container .recipeform .center .recipe {
+  margin: 10px 0;
+  border: 0px;
+  border-bottom: 2px solid black;
+  padding: 10px;
+  color: black;
+  width: 70%;
+  align-items: center;
+  justify-content: center;
+}
+
+input[type="text"] {
+  padding: 12px;
+  border: 3px solid black;
+  border-radius: 4px;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+input[type="file"] {
+  padding: 12px;
+  border: 3px solid black;
+  border-radius: 4px;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+::-webkit-input-placeholder {
+  color: rgb(39, 38, 38);
+  text-align: center;
+}
+::-moz-placeholder {
+  color: rgb(39, 38, 38);
+  text-align: center;
+}
+:-ms-input-placeholder {
+  color: rgb(39, 38, 38);
+  text-align: center;
+}
+
+@media screen and (max-width: 600px) {
+  .container .recipeform {
+    flex-direction: column;
+  }
+}
+
+.container .recipe div {
+  border-color: black;
+}
+
+.sendinfo .btn {
+  font-size: 15px;
+  font-weight: bolder;
+  height: 40px;
+  width: 100px;
+  color: rgb(233, 250, 233);
+  background-color: red;
+  margin-left: 500px;
+}
+.sendinfo {
+  padding-top: 5px;
+}
+
+label {
+  font-weight: bold;
+}
+
+.stepsno {
+  display: flex;
+}
+
+input {
+  display: block;
+  height: 30px;
+  width: 70%;
 }
 
 #generate input {
-    height: 30px;
-    width: 400px;
-    margin-bottom: 2px;
-    border-width: thin;
+  height: 30px;
+  width: 400px;
+  margin-bottom: 2px;
+  border-width: thin;
 }

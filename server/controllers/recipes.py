@@ -3,13 +3,18 @@ from flask import Blueprint, request
 import json
 
 # Project Modules
-from ..services.recipes import create_recipe_service, get_recipes_service
+from ..services.recipes import (create_recipe_service, get_recipes_service,
+                                get_ingredients_service)
 from ..utils.auth import auth_guard
 
 recipes = Blueprint('recipe', __name__)
 
+@recipes.route('/get-ingredients', methods=['GET'])
+def get_ingredients():
+    return json.dumps({'ingredients': get_ingredients_service()}), 200
+
 @recipes.route('/', methods=['POST'])
-@auth_guard
+# @auth_guard
 def create_recipe():
 
     try:

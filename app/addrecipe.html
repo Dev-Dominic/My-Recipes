@@ -8,69 +8,120 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
     <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="../css/addrecipe.css">
+    <link rel="stylesheet" href="addrecipe.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    
+
 </head>
 <body>
     <div class = "container">
         <div class ="recipeform" id = "form">
         <div class = "center">
-            <input type="text" class = "recipe" id="recipe" name="recipeid" placeholder= "Recipe ID" required>
-            <br>
             <input type="text" class = "recipe" id="recipe" name="recipename" placeholder= "Recipe Name" required>
-            <br>
-            <input type="text" class = "recipe" id="date_created" name="date_created" placeholder= "Date Created"required>
-            <br>
-            <input type="text" class = "recipe" id="user_id" name="userid" placeholder= "User ID" required>     
             <br> <hr>
+            <!-- Loads up ingredient list on page load-->
+            <div id="ingredients_list"></div>
             <label> Enter No. of Steps For Instructions</label>
             <div class="stepsno">
             <input type ="number" id="steps">
-        
+
             <button id = "stepsgenerate">Add</button>
             </div>
             <hr>
-            <div id = "generate">  
+            <div id = "generate">
             </div>
             <hr>
-            <div id = "showdata"></div>               
+            <div id = "showdata"></div>
             <div class="sendinfo">
-                <button  class ="btn" type="submit">Submit</button>
+                <button  id="submit" class ="btn" type="submit">Submit</button>
             </div>
         </div>
-        
-        
-        <script>
-            $(document).ready(function () {
-                $("#stepsgenerate").click(function () {
-                    var steps = $("#steps").val()
-                    var i
-                    for (i=0; i<=steps;i++)
-                        {
 
-                            $("#generate").append(`<input type ="text" name="instruction"id="textbox`+i+`"><br>`)
-                        }
-                    $("#generate").append(`<button id="btnshow>Show</button>`)
-                    $("#btnshow").click(function () {
-                    
-                        for(i=1;i<=steps;i++)
-                        {
-                            var data =$("#textbox"+i).val()
-                            $("#showdata").append(data)                        }
+
+        <script>
+
+            window.addEventListener("load", () => {
+
+                fetch('http://127.0.0.1:5000/api/recipes/get-ingredients')
+                    .then(response => response.json())
+                    .then(data => {
+                        const ingredients_list = document.getElementById('ingredients_list');
+
+                        data.ingredients.forEach(({ name, id, units }) => {
+                            const ingredientLabel = document.createElement("label");
+                            const ingredient = document.createElement("input")
+
+                            ingredient.setAttribute("id", id);
+                            ingredient.setAttribute("type", "number");
+                            ingredient.setAttribute("class", "ingredient");
+                            ingredient.value = 0;
+                            ingredientLabel.innerHTML = `${name}(${units})`;
+
+                            ingredients_list.appendChild(ingredientLabel);
+                            ingredients_list.appendChild(ingredient);
+                        })
+
+                        const generateSteps = document.getElementById("stepsgenerate");
+                        generateSteps.addEventListener("click", e => {
+                            e.preventDefault();
+                            const getStepsNum = document.getElementById("steps").value;
+                            const generate = document.getElementById("generate");
+
+                            for(let i = 0; i < getStepsNum; i++){
+                                const el = document.createElement("input")
+                                el.setAttribute("type", "text");
+                                el.setAttribute("class", "instructions");
+                                generate.appendChild(el);
+                            }
+                        });
+
+                        // Handling Creating new recipe
+                        const submit = document.getElementById("submit")
+                        const recipe_name = document.getElementById("recipe");
+                        const ingredients = document.querySelectorAll(".ingredient");
+                        const instructions = document.getElementsByClassName("instructions");
+
+                        submit.addEventListener("click", e => {
+                            e.preventDefault();
+
+                            ingredients_id_list = [];
+                            for(let i = 0; i < ingredients.length; i++){
+                                if(ingredients[i].value > 0){
+                                    ingredients_id_list.push([parseInt(ingredients[i].id), parseFloat(ingredients[i].value)]);
+                                }
+                            }
+
+                            const data = {
+                                name: recipe_name.value,
+                                user_id: localStorage.getItem('user_id'),
+                                instructions: Object.keys(instructions).map(key => instructions[key].value),
+                                ingredients_id_list: ingredients_id_list
+                            };
+
+                            const headers = {
+                                "Content-type": "application/json",
+                            };
+
+                            fetch('http://127.0.0.1:5000/api/recipes/', {
+                                method: "POST",
+                                body: JSON.stringify(data),
+                                headers: headers
+                            }).then(response => response.json())
+                                .then(data => alert('Succesfully Create Recipe'))
+                                .catch(err => alert("an error occured"));
+
+                        });
 
                     })
+                    .catch(err => console.log(err));
 
-                })
-                
-            })
+            });
 
 
         </script>
-        </form>     
-       
+        </form>
+
     </div>
-    
+
 </body>
 </html>

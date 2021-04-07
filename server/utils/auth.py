@@ -13,8 +13,8 @@ def auth_guard(endpoint):
         try:
             # Gets user access token from header
             # Throws an exception if token expires
-            access_token = request.headers.get('Authorization').split(' ')[1]
-            jwt.decode(access_token, 'secret', algorithms=["HS256"])
+            # access_token = request.headers.get('Authorization').split(' ')[1]
+            # jwt.decode(access_token, 'secret', algorithms=["HS256"])
 
             return endpoint(*args, **kwargs)
         except jwt.ExpiredSignatureError:

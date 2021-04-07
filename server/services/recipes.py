@@ -1,5 +1,25 @@
 from ..utils.db import insert_update, select
 
+def get_ingredients_service():
+    query = select(
+        f"""
+        SELECT i.name, i.ingredient_id, measure.unit FROM Measurements_Ingredients AS mi
+        RIGHT JOIN Ingredients AS i ON mi.ingredient_id = i.ingredient_id
+        RIGHT JOIN Measurements AS measure ON mi.measure_id = measure.measure_id;
+        """
+    )
+
+    ingredients_list = []
+    for name, ingredient_id, unit in query:
+        ingredients_list.append(
+            {
+                'name': name,
+                'id': ingredient_id,
+                'units': unit
+            }
+        )
+    return  ingredients_list
+
 def create_recipe_service(name, instructions, ingredients_id_list, user_id):
     resp = None
 
