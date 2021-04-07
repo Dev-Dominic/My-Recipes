@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Recipe</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../css/addrecipe.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    
+</head>
+<body>
+    <div class = "container">
+        <div class ="recipeform" id = "form">
+        <div class = "center">
+            <input type="text" class = "recipe" id="recipe" name="recipeid" placeholder= "Recipe ID" required>
+            <br>
+            <input type="text" class = "recipe" id="recipe" name="recipename" placeholder= "Recipe Name" required>
+            <br>
+            <input type="text" class = "recipe" id="date_created" name="date_created" placeholder= "Date Created"required>
+            <br>
+            <input type="text" class = "recipe" id="user_id" name="userid" placeholder= "User ID" required>     
+            <br> <hr>
+            <label> Enter No. of Steps For Instructions</label>
+            <div class="stepsno">
+            <input type ="number" id="steps">
+        
+            <button id = "stepsgenerate">Add</button>
+            </div>
+            <hr>
+            <div id = "generate">  
+            </div>
+            <hr>
+            <div id = "showdata"></div>               
+            <div class="sendinfo">
+                <button  class ="btn" type="submit">Submit</button>
+            </div>
+        </div>
+        
+        
+        <script>
+            $(document).ready(function () {
+                $("#stepsgenerate").click(function () {
+                    var steps = $("#steps").val()
+                    var i
+                    for (i=0; i<=steps;i++)
+                        {
+
+                            $("#generate").append(`<input type ="text" name="instruction"id="textbox`+i+`"><br>`)
+                        }
+                    $("#generate").append(`<button id="btnshow>Show</button>`)
+                    $("#btnshow").click(function () {
+                    
+                        for(i=1;i<=steps;i++)
+                        {
+                            var data =$("#textbox"+i).val()
+                            $("#showdata").append(data)                        }
+
+                    })
+
+                })
+                
+            })
+
+
+        </script>
+        </form>     
+       
+    </div>
+    
+</body>
+</html>
