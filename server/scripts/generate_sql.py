@@ -46,7 +46,7 @@ def convert_to_float(frac_str):
 def measurements_ingredients_creation():
     # Getting dataset
     result = open_dataset()
-    script = open("fake_info_measurements_ingredients.sql","w")
+    script = open("fake_info.sql","w")
     ingredients_list = []
     ingredients_measurements_list = []
     measurements = []
@@ -109,7 +109,7 @@ def user_recipe_creation():
     # Appending user and recipe data below measurements and ingredients data
     # This function should be ran after measurements_ingredients_creation
     # And the measurements and ingredients are dumped to the database
-    script=open("fake_info_user_recipe.sql","w")
+    script=open("fake_info.sql","a")
 
     # Creating Faker Object instance
     fake = Faker()
@@ -125,7 +125,7 @@ def user_recipe_creation():
     unique_count = 1
 
 
-    for _ in range(200000):
+    for _ in range(100): # Chanage to 2000000
         name=fake.name().split(" ")
         f_name = name[0]
         l_name = name[1]
@@ -175,9 +175,6 @@ def user_recipe_creation():
                 else:
                     quantity = float(quantity.split(' ')[0])
 
-                print(ingredient_name)
-                print(quantity)
-
                 # Query for existing ingredient that would have been created
                 # from the function meassurements_ingredients_creation and was
                 # dumped, the expectation is that only one ingredient id will be
@@ -192,3 +189,7 @@ def user_recipe_creation():
             script.write(add_instructions)
 
     script.close()
+
+if __name__ == '__main__':
+    measurements_ingredients_creation()
+    user_recipe_creation()
