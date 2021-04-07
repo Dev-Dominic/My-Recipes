@@ -97,11 +97,12 @@ Create Table Planned_Meal(
 );
 
 CREATE TABLE Meals_Plans(
+    meals_plans_id int auto_increment not null,
     planned_meal_id int not null,
     meal_id int not null,
     meal_type enum("Breakfast", "Lunch", "Dinner"),
     schedule_date date not null,
-    primary key(meal_id, planned_meal_id),
+    primary key(meals_plans_id),
     foreign key (planned_meal_id) references Planned_Meal(planned_meal_id) on update cascade on delete cascade,
     foreign key (meal_id) references Meals(meal_id) on update cascade on delete cascade
 );
@@ -109,10 +110,10 @@ CREATE TABLE Meals_Plans(
 -- STORED PROCEDURES
 
 DELIMITER //
-    CREATE PROCEDURE mealBy_calories(IN calorie_count double)
+    CREATE PROCEDURE mealBy_calories(IN calorie_count double, IN user_id_param int)
     BEGIN
     SELECT meal_id, image, calories, servings
-	FROM Meals WHERE calories= calorie_count;
+	FROM Meals WHERE calories= calorie_count AND user_id = user_id_param;
 END //
 DELIMITER ;
 

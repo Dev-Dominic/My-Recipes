@@ -19,6 +19,6 @@ def user_sign_up_service(first_name, last_name, email, password):
 
     password_hash = hashlib.sha256(password.encode('utf-8')).hexdigest()
     query = f"INSERT INTO Users(first_name, last_name, email, password) VALUES('{first_name}', '{last_name}', '{email}', '{password_hash}')"
-    success = insert_update(query, True)
+    success, _ = insert_update(query, True)
     return success
 

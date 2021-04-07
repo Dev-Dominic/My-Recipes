@@ -52,3 +52,24 @@ def select(queryString):
         print('An error occured when trying to execute query')
         return None
 
+def call_proc(stored_procedure, args=None):
+    try:
+        # Getting database connection instance and cusror to execute queries
+        _, cursor = db_connection()
+
+        print(f'Executing query: {stored_procedure}')
+        result = []
+        if args is None:
+            cursor.callproc(stored_procedure);
+        else:
+            cursor.callproc(stored_procedure, args);
+
+        for i in cursor.stored_results():
+            result = result + i.fetchall()
+
+        return result
+    except Exception as e:
+        print(e)
+        print('An error occured when trying to execute query')
+        return None
+
