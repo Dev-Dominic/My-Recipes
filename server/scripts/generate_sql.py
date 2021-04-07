@@ -1,19 +1,3 @@
-"""
-
-    How to generate sql scripts
-
-    -- python
-    -- from generate_sql import (measurements_ingredients_creation, user_recipe_creation)
-    -- measurements_ingredients_creation()
-    -- ....(Enter dataset if needed, allow execution to progress)
-    -- user_recipe_creation()
-    -- ....(Enter dataset if needed, allow execution to progress)
-    --
-    -- dump fake_info_measurements_ingredients.sql in mysql
-    -- dump fake_info_user_recipe.sql in mysql
-
-"""
-
 from faker import Faker
 import random
 import hashlib
@@ -127,7 +111,7 @@ def user_recipe_creation():
 
     # Generates 200,000 Users with each having 3 Recipes
     # Therefore also generates 600,000 Recipes
-    for _ in range(2000000):
+    for _ in range(200000):
         name=fake.name().split(" ")
         f_name = name[0]
         l_name = name[1]
