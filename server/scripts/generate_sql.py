@@ -1,19 +1,3 @@
-"""
-
-    How to generate sql scripts
-
-    -- python
-    -- from generate_sql import (measurements_ingredients_creation, user_recipe_creation)
-    -- measurements_ingredients_creation()
-    -- ....(Enter dataset if needed, allow execution to progress)
-    -- user_recipe_creation()
-    -- ....(Enter dataset if needed, allow execution to progress)
-    --
-    -- dump fake_info_measurements_ingredients.sql in mysql
-    -- dump fake_info_user_recipe.sql in mysql
-
-"""
-
 from faker import Faker
 import random
 import hashlib
